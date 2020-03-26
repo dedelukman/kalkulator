@@ -10,6 +10,7 @@ class MainActivity : AppCompatActivity() {
     var op="*"
     var oldNumber=""
     var isNewOp=true
+    var isPercen=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,12 +58,27 @@ class MainActivity : AppCompatActivity() {
                 buClickValue+="9"
             }
             buDot.id->{
-                //TODO: prevent adding more than 1 dot
-                buClickValue+="."
+                if (!etShowNumber.text.contains(".")){
+                    if (etShowNumber.text.length==0){
+                        buClickValue+="0."
+                    }else{
+                        buClickValue+="."
+                    }
+//                    isDot=true
+                }
             }
             buPlusMinus.id->{
-                buClickValue="-"+ buClickValue
+                if (!etShowNumber.text.contains("-")){
+                    if (etShowNumber.text.length==0){
+                        buClickValue="-0" +buClickValue
+                    }else{
+                        buClickValue="-" +buClickValue
+                    }
+                }else{
+                    etShowNumber.text.replaceRange(1,1," ")
+                }
             }
+
         }
         etShowNumber.setText(buClickValue)
     }
@@ -71,7 +87,6 @@ class MainActivity : AppCompatActivity() {
     fun buEventOp(view: View) {
 
         val buSelect = view as Button
-        var buClickValue: String = etShowNumber.text.toString()
         when (buSelect.id) {
             buMul.id -> {
                 op="*"
@@ -110,4 +125,28 @@ class MainActivity : AppCompatActivity() {
         etShowNumber.setText(finalNumber.toString())
         isNewOp=true
     }
+
+    fun buEventPercen(view: View) {
+        if (etShowNumber.text.length>0) {
+            if (isPercen) {
+                val number: Double = etShowNumber.text.toString().toDouble() * 100
+                etShowNumber.setText(number.toString())
+                isPercen = false
+            } else {
+                val number: Double = etShowNumber.text.toString().toDouble() / 100
+                etShowNumber.setText(number.toString())
+                isPercen = true
+            }
+            isNewOp = true
+        }
+    }
+
+    fun buEventClean(view: View) {
+        etShowNumber.setText("0")
+        isNewOp=true
+        isPercen=false
+
+    }
+
+
 }
