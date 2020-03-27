@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                         buClickValue="-" +buClickValue
                     }
                 }else{
-                    etShowNumber.text.replaceRange(1,1," ")
+                    buClickValue=buClickValue.replace("-","",true)
                 }
             }
 
